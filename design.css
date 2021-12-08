@@ -40,6 +40,8 @@ body{
     user-select: text;
     justify-content:space-evenly;
 }
+
+
 #screen>*{
     /* border: 1px solid yellowgreen; */
     font-size: 1.5rem;
