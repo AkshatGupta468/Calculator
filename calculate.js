@@ -1,5 +1,8 @@
-
 var var1=0;
+const history=[ {"up":" ","opr":" ","down":"0"},
+                {"up":" ","opr":" ","down":"0"},
+                {"up":" ","opr":" ","down":"0"}];
+var pos=2;
 var decimal=false;
 var generalbuttons=document.querySelectorAll("#generalbtn>.btn");
 generalbuttons.forEach(element=>element.addEventListener('click',()=>{
@@ -9,13 +12,26 @@ generalbuttons.forEach(element=>element.addEventListener('click',()=>{
     {
         scrdown.innerHTML="0";
     }
-    if(element.innerHTML=="←")
+    else if(element.innerHTML=="←")
     {
         var s=scrdown.innerHTML;
         scrdown.innerHTML=s.substring(0,s.length -1);
         if(scrdown.innerHTML=="")
         scrdown.innerHTML="0";
-        
+    }
+    else if(element.innerHTML=="PREV" && pos>0)
+    {
+        pos--;
+        scrup.innerHTML=history[pos]["up"];
+        scropr.innerHTML=history[pos]["opr"];
+        scrdown.innerHTML=history[pos]["down"];
+    }
+    else if(element.innerHTML=="NEXT" && pos<2)
+    {
+        pos++;
+        scrup.innerHTML=history[pos]["up"];
+        scropr.innerHTML=history[pos]["opr"];
+        scrdown.innerHTML=history[pos]["down"];
     }
     else  if(element.innerHTML=="AC")
     {
@@ -43,6 +59,8 @@ numbuttons.forEach(element => element.addEventListener('click',()=>{
     }
 })
 );
+//decimal thik karo
+//Error message thik karo
 var oprbuttons=document.querySelectorAll("#operator>.btn");
 oprbuttons.forEach(element=>element.addEventListener('click',()=>{
     
@@ -50,40 +68,43 @@ oprbuttons.forEach(element=>element.addEventListener('click',()=>{
     {
         var1=parseFloat(scrdown.innerHTML);
         scrup.innerHTML=element.innerHTML+scrdown.innerHTML;
-        scropr.innerHTML="=";
         scrdown.innerHTML=Math.sqrt(var1);
+        scropr.innerHTML="=";
+        console.log("Shifted",history.shift());
+        history.push({"up":String(scrup.innerHTML),"opr":String(scropr.innerHTML),"down":String(scrdown.innerHTML)});
+        pos=2;
     }
     else if(element.innerHTML=="=")
     {
         var2=parseFloat(scrdown.innerHTML);
+        
         if(scropr.innerHTML!="=")
-        scrup.innerHTML+=" "+scropr.innerHTML+" "+scrdown.innerHTML;
-        switch(scropr.innerHTML)
         {
-            case "+":{
+            scrup.innerHTML+=" "+scropr.innerHTML+" "+scrdown.innerHTML;
+            if(scropr.innerHTML== "+"){
                 scrdown.innerHTML=var1+var2;
-                break;
             }
-            case "-":{
+            else if(scropr.innerHTML== "-"){
                 scrdown.innerHTML=var1-var2;
-                break;
             }
-            case "×":{
+            else if(scropr.innerHTML== "×"){
                 scrdown.innerHTML=var1*var2;
-                break;
             }
-            case "÷":{
-                if(var2!=0)
-                scrdown.innerHTML=var1/var2;
+            else if(scropr.innerHTML== "÷"){
+                if(var2!=0){
+                    scrdown.innerHTML=var1/var2;
+                }
                 else
                 scrdown.innerHTML="Error";
-                break;
             }
-            case "%":{
+            else if(scropr.innerHTML== "%"){
                 scrdown.innerHTML=var1%var2;
             }
+            pos=2;
+            scropr.innerHTML="=";
+            console.log("Shifted",history.shift());
+            history.push({"up":String(scrup.innerHTML),"opr":String(scropr.innerHTML),"down":String(scrdown.innerHTML)});
         }
-        scropr.innerHTML="=";
     }
     else{
         var1=parseFloat(scrdown.innerHTML)
@@ -91,5 +112,6 @@ oprbuttons.forEach(element=>element.addEventListener('click',()=>{
         scropr.innerHTML=element.innerHTML;
         scrdown.innerHTML="0";
     }
+    console.log(history);
 })
 );

@@ -73,15 +73,15 @@ body{
     display: flex;
     flex-direction: row;
     flex-flow: wrap;
-    width: 90%;
+    width: 95%;
 }
 #generalbtn>.btn{
     border: 2px outset green;
     background-color: green;
 }
-#generalbtn>:last-child{
+/* #generalbtn>:last-child{
     flex-grow: 2;
-}
+} */
 #generalbtn>.btn:hover{
     background-color: blue;
 }
